@@ -3,18 +3,27 @@ package com.in28minutes.business;
 
 import com.in28minutes.data.api.TodoService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class TodoBusinessImplMockTest {
-    TodoService todoService = mock(TodoService.class);
-    TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoService);
+@ExtendWith(MockitoExtension.class)
+class TodoBusinessImplMockTestWithAnnotation {
+//    @Rule
+//    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    TodoService todoService;
+    @InjectMocks
+    TodoBusinessImpl todoBusinessImpl;
 
     @Test
     public void testRetrieveTodosRelatedToSpring() {
@@ -39,8 +48,7 @@ class TodoBusinessImplMockTest {
     @Test
     public void testDeleteTodoRelatedToSpringBDD() {
         //given
-        var todos = List.of("Learn Spring MVC", "Learn Spring", "Learn to Dance");
-        given(todoService.retrieveTodos("Faisal")).willReturn(todos);
+        //given(todoService.retrieveTodos("Faisal")).willReturn(List.of("Learn Spring MVC", "Learn Spring", "Learn to Dance"));
 
         //when
         todoBusinessImpl.deleteTodosNotRelatedToSpring("Faisal");
@@ -52,7 +60,6 @@ class TodoBusinessImplMockTest {
 
     @Test
     public void testRetrieveTodosRelatedToSpring_withEmptyList() {
-        var todoService = mock(TodoService.class);
         when(todoService.retrieveTodos("faisal")).thenReturn(List.of());
         var todoBusinessImpl = new TodoBusinessImpl(todoService);
         var filteredTodos = todoBusinessImpl.retrieveTodoRelatedToSpring("faisal");
