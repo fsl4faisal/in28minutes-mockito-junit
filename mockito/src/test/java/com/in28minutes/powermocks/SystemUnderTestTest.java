@@ -4,14 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -19,10 +21,10 @@ import static org.mockito.Mockito.when;
 class SystemUnderTestTest {
 
     @Mock
-    Dependency dependencyMock;
+    Dependency dependencyMock = mock(Dependency.class);
 
     @InjectMocks
-    SystemUnderTest systemUnderTest;
+    SystemUnderTest systemUnderTest = new SystemUnderTest(dependencyMock);
 
     @Test
     public void powerMockito_MockingAStaticMethodCall() {
@@ -43,7 +45,7 @@ class SystemUnderTestTest {
         UtilityClass.staticMethod(1 + 2 + 3);
 
         // verify exact number of calls
-        //PowerMockito.verifyStatic(Mockito.times(1));
+        PowerMockito.verifyStatic(Mockito.times(1));
 
     }
 }

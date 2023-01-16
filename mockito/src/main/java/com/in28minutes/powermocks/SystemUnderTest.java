@@ -1,5 +1,7 @@
 package com.in28minutes.powermocks;
 
+import lombok.AllArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ interface Dependency {
 	List<Integer> retrieveAllStats();
 }
 
+@AllArgsConstructor
 public class SystemUnderTest {
 	private Dependency dependency;
 
